@@ -40,88 +40,97 @@ class _HomeViewState extends State<HomeView> {
       if (provider.isLoading) {
          return Loader(opacity: 0.0,);
       } else {
-      return Scaffold(
-          body: SafeArea(
-              child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: ListView(
-              //  spacing: 20,
-              children: [
-                HeaderView(),
-                SizedBox(
-                  height: 20,
-                ),
-                AppTextfield(
-                  hintText: "Search any product",
-                  controller: TextEditingController(),
-                  leadingIcon: Icons.search,
-                  trailingIcon: Icons.mic_none_rounded,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "All Featured",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 26),
-                    ),
-                    Row(
-                      spacing: 5,
+      return LayoutBuilder(
+        builder: (context, viewportConstraints) {
+          return Scaffold(
+              body: SafeArea(
+                  child: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight),
+                    child: Column(
+                      //  spacing: 20,
                       children: [
-                        ButtonWithImageView(
-                          title: "Sort",
-                          icon: Icons.sort,
-                          onTap: () {},
+                        HeaderView(),
+                        SizedBox(
+                          height: 20,
                         ),
-                        ButtonWithImageView(
-                          title: "Filter",
-                          icon: Icons.filter_alt_outlined,
-                          onTap: () {},
-                        )
+                        AppTextfield(
+                          hintText: "Search any product",
+                          controller: TextEditingController(),
+                          leadingIcon: Icons.search,
+                          trailingIcon: Icons.mic_none_rounded,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "All Featured",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 26),
+                            ),
+                            Row(
+                              spacing: 5,
+                              children: [
+                                ButtonWithImageView(
+                                  title: "Sort",
+                                  icon: Icons.sort,
+                                  onTap: () {},
+                                ),
+                                ButtonWithImageView(
+                                  title: "Filter",
+                                  icon: Icons.filter_alt_outlined,
+                                  onTap: () {},
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        //  SizedBox(height: 10,),
+                       // CategoriesView(categories: provider.categories),
+                        ImageSliderView(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 35,
+                              child: TextButton.icon(
+                                onPressed: () {},
+                                label: Text(
+                                  "View all",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                icon: Icon(
+                                  Icons.arrow_forward_sharp,
+                                  color: Colors.white,
+                                ),
+                                style: ButtonStyle(
+                                    shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8.0))),
+                                    backgroundColor: WidgetStatePropertyAll<Color>(
+                                        Appcolors.PrimaryColor)),
+                                iconAlignment: IconAlignment.end,
+                              ),
+                            )
+                          ],
+                        ),
+                        ProductsGridView(products: provider.products,)
                       ],
                     ),
-                  ],
+                  ),
                 ),
-                //  SizedBox(height: 10,),
-                CategoriesView(categories: provider.categories),
-                ImageSliderView(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      height: 35,
-                      child: TextButton.icon(
-                        onPressed: () {},
-                        label: Text(
-                          "View all",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        icon: Icon(
-                          Icons.arrow_forward_sharp,
-                          color: Colors.white,
-                        ),
-                        style: ButtonStyle(
-                            shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0))),
-                            backgroundColor: WidgetStatePropertyAll<Color>(
-                                Appcolors.PrimaryColor)),
-                        iconAlignment: IconAlignment.end,
-                      ),
-                    )
-                  ],
-                ),
-                ProductsGridView(products: provider.products,)
-              ],
-            ),
-          )
-          ),
-        );
+              )
+              ),
+            );
+        }
+      );
       }
     }
     );

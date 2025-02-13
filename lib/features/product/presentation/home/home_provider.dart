@@ -44,4 +44,12 @@ class HomeProvider extends ChangeNotifier {
       print(e.toString());
     }
   }
+
+  getProductByCategory(String category) {
+    return products.where((element) => element.category == category).toList();
+  }
+
+  getProductById(String id) {
+    return products.firstWhere((element) => element.id == id);
+  }
 }

@@ -16,7 +16,7 @@ class ProductsGridView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          height: 250 * (products.length / 2), //multiply (array count / 2) by height of card
+          height: 400 * (products.length / 2), //multiply (array count / 2) by height of card
           child: GridView.count(
             childAspectRatio: 0.45, //(itemWidth / itemHeight),
             primary: false,
@@ -24,6 +24,7 @@ class ProductsGridView extends StatelessWidget {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             crossAxisCount: 2,
+            physics: NeverScrollableScrollPhysics(),
             children: products.map((product) => ProductCard(product: product)).toList(), 
           ),
         ),
