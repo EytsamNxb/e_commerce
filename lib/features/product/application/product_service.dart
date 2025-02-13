@@ -23,10 +23,10 @@ class ProductService {
     return categories;
   }
 
-  Future<List<Product>> fetchProducts() async {
-    final response = await _productRepository.fetchProducts();
+  Future<(List<Product>, int)> fetchProducts(int? offset) async {
+    final response = await _productRepository.fetchProducts(offset);
     List<Product> products = List.empty(growable: true);
-    for(var prod in response) {
+    for(var prod in response.$1) {
       var product = Product(id: prod.id!, 
       title: prod.title!, 
       description: prod.description!,
@@ -38,6 +38,6 @@ class ProductService {
       sku: prod.sku!);
       products.add(product);
     }
-    return products;
+    return (products, response.$2);
   }
 }

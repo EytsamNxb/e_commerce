@@ -4,13 +4,16 @@ import 'package:ecommerce/custom_widgets/app_textfield.dart';
 import 'package:ecommerce/custom_widgets/loader.dart';
 import 'package:ecommerce/custom_widgets/search_bar.dart';
 import 'package:ecommerce/features/product/presentation/home/home_provider.dart';
+import 'package:ecommerce/features/product/presentation/home/more_products.dart';
 import 'package:ecommerce/features/product/presentation/home/subviews/header_view.dart';
 import 'package:ecommerce/features/product/presentation/home/subviews/image_slider_view.dart';
 import 'package:ecommerce/features/product/presentation/home/subviews/product_categories_view.dart';
 import 'package:ecommerce/features/product/presentation/home/subviews/product_grid_view.dart';
 import 'package:ecommerce/utils/AppColors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -101,7 +104,9 @@ class _HomeViewState extends State<HomeView> {
                             SizedBox(
                               height: 35,
                               child: TextButton.icon(
-                                onPressed: () {},
+                                onPressed: () {
+                                   Get.to(MoreProductsView());
+                                },
                                 label: Text(
                                   "View all",
                                   style: TextStyle(color: Colors.white),

@@ -1,12 +1,15 @@
+import 'dart:ffi';
+
 import 'package:ecommerce/features/product/data/DTOs/product_pagination_dto.dart';
 import 'package:ecommerce/features/product/data/network_routes/routes.dart';
 import 'package:ecommerce/features/product/data/response_models/ProductCategoryModel.dart';
 import 'package:ecommerce/features/product/data/response_models/product_model.dart';
 import 'package:ecommerce/network/url_request.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 abstract class ProductRepositoryType {
   Future<List<ProductCategoryModel>> fetchCategories();
-  Future<List<ProductModel>> fetchProducts();
+  Future<(List<ProductModel>, int)> fetchProducts(int? offset);
 }
 
 class ProductRepository implements ProductRepositoryType {
@@ -25,8 +28,8 @@ class ProductRepository implements ProductRepositoryType {
   }
   
   @override
-  Future<List<ProductModel>> fetchProducts() async {
-    final paginationDto = ProductPaginationDto(limit: 10, skip: 0);
+  Future<(List<ProductModel>, int)> fetchProducts(int? offset) async {
+    final paginationDto = ProductPaginationDto(limit: 15, skip: offset ?? 0);
      final routeInput = RouterInput(queryParameters: paginationDto.toJson());
     final json = await _request.makeNetworkRequest(Routes.products, routeInput);
     final jsonProducts = json['products'];
@@ -35,7 +38,8 @@ class ProductRepository implements ProductRepositoryType {
       var product = ProductModel.fromJson(prod);
       products.add(product);
     }
-    return Future.value(products);
+    int totalcount = json['total'];
+    return Future.value((products, totalcount));
   }
 
 }

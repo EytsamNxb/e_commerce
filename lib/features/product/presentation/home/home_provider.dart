@@ -11,6 +11,8 @@ class HomeProvider extends ChangeNotifier {
   final _service = ProductService(ProductRepository());
   List<ProductCategory> categories = List.empty(growable: true);
   List<Product> products = List.empty(growable: true);
+  int offset = 0;
+  int totalProducts = 0;
   fetchCategories() {
     _service.fetchCategoriesListing().then((value) {
       categories = value;
@@ -21,8 +23,10 @@ class HomeProvider extends ChangeNotifier {
   }
 
   fetchProducts() {
-    _service.fetchProducts().then((value) {
-      value;
+    _service.fetchProducts(offset).then((value) {
+     products.addAll(value.$1);
+     totalProducts = value.$2;
+     notifyListeners();
     }, onError: (error, stackTrace) {
       print(error);
     });
@@ -33,9 +37,9 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
     try {
       List responses = await Future.wait(
-          [_service.fetchCategoriesListing(), _service.fetchProducts()]);
+          [_service.fetchCategoriesListing(), _service.fetchProducts(null)]);
       print(responses);
-      products = responses[1];
+      products = responses[1].$1;
       isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -52,4 +56,5 @@ class HomeProvider extends ChangeNotifier {
   getProductById(String id) {
     return products.firstWhere((element) => element.id == id);
   }
+  
 }

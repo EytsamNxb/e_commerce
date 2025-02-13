@@ -4,12 +4,14 @@ class Helper {
     var value = json[key];
     if (value != null && value is String) {
       return value;
-    } 
+    } else if (value ==  null) {
+      return null;
+    }
     // else if (value != null && value is int) {
     //   return value.toString(); // Convert int to String if needed
     // } 
     else {
-      throw FormatException('Field "$key" is either missing or has an invalid type.');
+      throw FormatException('Field "$key" is either missing or has an invalid type. Record Id ${json["id"]}');
     }
   }
 
