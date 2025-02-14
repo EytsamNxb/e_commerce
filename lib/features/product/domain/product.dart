@@ -8,6 +8,11 @@ class Product {
   double rating;
   String thumbnail;
   String sku;
+  List<String>? images;
+  String? returnPolicy;
+  String? shippingInformation;
+  List<String>? tags;
+  String? brand;
 
   Product({
     required this.id,
@@ -18,6 +23,11 @@ class Product {
     required this.discountPercentage,
     required this.rating,
     required this.thumbnail,
-    required this.sku
+    required this.sku,
+    this.images,
+    this.returnPolicy,
+    this.shippingInformation,
+    this.tags,
+    this.brand
   });
 }

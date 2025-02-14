@@ -10,6 +10,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 abstract class ProductRepositoryType {
   Future<List<ProductCategoryModel>> fetchCategories();
   Future<(List<ProductModel>, int)> fetchProducts(int? offset);
+  Future<ProductModel> productDetail(int id);
 }
 
 class ProductRepository implements ProductRepositoryType {
@@ -17,7 +18,7 @@ class ProductRepository implements ProductRepositoryType {
   @override
   Future<List<ProductCategoryModel>> fetchCategories() async {
     final routeInput = RouterInput();
-    final json = await _request.makeNetworkRequest(Routes.categories, routeInput);
+    final json = await _request.makeNetworkRequest(CategoriesRoute(), routeInput);
     List<ProductCategoryModel> catList = List.empty(growable: true);
     for(var category in json) {
       var pCategory = ProductCategoryModel.fromJson(category);
@@ -31,7 +32,7 @@ class ProductRepository implements ProductRepositoryType {
   Future<(List<ProductModel>, int)> fetchProducts(int? offset) async {
     final paginationDto = ProductPaginationDto(limit: 15, skip: offset ?? 0);
      final routeInput = RouterInput(queryParameters: paginationDto.toJson());
-    final json = await _request.makeNetworkRequest(Routes.products, routeInput);
+    final json = await _request.makeNetworkRequest(ProductsRoute(), routeInput);
     final jsonProducts = json['products'];
     List<ProductModel> products = List.empty(growable: true);
     for(var prod in jsonProducts) {
@@ -40,6 +41,15 @@ class ProductRepository implements ProductRepositoryType {
     }
     int totalcount = json['total'];
     return Future.value((products, totalcount));
+  }
+
+  @override
+  Future<ProductModel> productDetail(int id) async {
+    final routeInput = RouterInput();
+    final json = await _request.makeNetworkRequest(ProductDetailRoute(id), routeInput);
+   // final jsonProduct = json['products'];
+    var product = ProductModel.fromJson(json);
+    return Future.value(product);
   }
 
 }

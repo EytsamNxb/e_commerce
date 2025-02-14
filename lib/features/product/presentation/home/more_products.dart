@@ -2,7 +2,10 @@ import 'package:ecommerce/custom_widgets/loader.dart';
 import 'package:ecommerce/features/product/presentation/home/home_provider.dart';
 import 'package:ecommerce/features/product/presentation/home/subviews/product_card.dart';
 import 'package:ecommerce/features/product/presentation/home/subviews/product_grid_view.dart';
+import 'package:ecommerce/features/product/presentation/product_detail/product_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
 class MoreProductsView extends StatefulWidget {
@@ -14,10 +17,11 @@ class MoreProductsView extends StatefulWidget {
 
 class _MoreProductsViewState extends State<MoreProductsView> {
   ScrollController _scrollController = ScrollController();
+  late HomeProvider homeProvider;
   @override
   void initState() {
     super.initState();
-    HomeProvider homeProvider =
+     homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
     Future.microtask(() {
       homeProvider.fetchProducts();
@@ -34,8 +38,6 @@ class _MoreProductsViewState extends State<MoreProductsView> {
   void _loadMoreData() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      HomeProvider homeProvider =
-          Provider.of<HomeProvider>(context, listen: false);
       if (homeProvider.offset < homeProvider.totalProducts) {
         homeProvider.offset += 10;
         homeProvider.fetchProducts();
@@ -65,7 +67,12 @@ class _MoreProductsViewState extends State<MoreProductsView> {
               mainAxisSpacing: 10,
               crossAxisCount: 2,
               children: provider.products
-                  .map((product) => ProductCard(product: product))
+                  .map((product) => GestureDetector(
+                    onTap: () {
+                      Get.to(() => ProductDetail(id: product.id));
+                    },
+                    child:ProductCard(product: product)
+                  ))
                   .toList(),
             ),
           ),

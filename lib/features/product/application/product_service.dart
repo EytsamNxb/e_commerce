@@ -2,7 +2,7 @@ import 'package:ecommerce/app/locator.dart';
 import 'package:ecommerce/features/product/data/product_repository.dart';
 import 'package:ecommerce/features/product/domain/category.dart';
 import 'package:ecommerce/features/product/domain/product.dart';
-import 'package:ecommerce/features/product/presentation/product_detail.dart';
+import 'package:ecommerce/features/product/presentation/product_detail/product_detail.dart';
 import 'package:ecommerce/shared_preferences/shared_preferences_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
@@ -39,5 +39,25 @@ class ProductService {
       products.add(product);
     }
     return (products, response.$2);
+  }
+
+  Future<Product> productDetail(int id) async {
+    final response = await _productRepository.productDetail(id);
+    var product = Product(id: response.id!, 
+    title: response.title!, 
+    description: response.description!,
+    category: response.category!, 
+    price: response.price!, 
+    discountPercentage: response.discountPercentage!, 
+    rating: response.rating!, 
+    thumbnail: response.thumbnail!, 
+    sku: response.sku!,
+    images: response.images,
+    returnPolicy: response.returnPolicy,
+    shippingInformation: response.shippingInformation,
+    tags: response.tags,
+    brand: response.brand
+    );
+    return product;
   }
 }
