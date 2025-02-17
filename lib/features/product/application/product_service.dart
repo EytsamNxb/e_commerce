@@ -56,7 +56,8 @@ class ProductService {
     returnPolicy: response.returnPolicy,
     shippingInformation: response.shippingInformation,
     tags: response.tags,
-    brand: response.brand
+    brand: response.brand,
+    reviews: response.reviews?.map((e) => Review(reviewer: e.reviewerName!, comment: e.comment!, date: e.date!)).toList()
     );
     return product;
   }

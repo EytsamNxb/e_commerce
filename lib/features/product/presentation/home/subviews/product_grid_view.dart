@@ -4,9 +4,9 @@ import 'package:ecommerce/features/product/presentation/home/subviews/product_ca
 import 'package:flutter/material.dart';
 
 class ProductsGridView extends StatelessWidget {
-  ProductsGridView({super.key, required this.products});
+  ProductsGridView({super.key, required this.products, required this.onProductTapped});
   List<Product> products;
-
+  final void Function(int) onProductTapped;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -25,7 +25,14 @@ class ProductsGridView extends StatelessWidget {
             mainAxisSpacing: 10,
             crossAxisCount: 2,
             physics: NeverScrollableScrollPhysics(),
-            children: products.map((product) => ProductCard(product: product)).toList(), 
+            children: products
+                  .map((product) => GestureDetector(
+                    onTap: () {
+                      onProductTapped(product.id);
+                    },
+                    child:ProductCard(product: product)
+                  ))
+                  .toList(),
           ),
         ),
       ],

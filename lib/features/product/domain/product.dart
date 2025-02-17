@@ -13,6 +13,7 @@ class Product {
   String? shippingInformation;
   List<String>? tags;
   String? brand;
+  List<Review>? reviews;
 
   Product({
     required this.id,
@@ -28,6 +29,19 @@ class Product {
     this.returnPolicy,
     this.shippingInformation,
     this.tags,
-    this.brand
+    this.brand,
+    this.reviews
+  });
+}
+
+class Review {
+  String reviewer;
+  String comment;
+  String date;
+
+  Review({
+    required this.reviewer,
+    required this.comment,
+    required this.date
   });
 }

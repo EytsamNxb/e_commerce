@@ -9,6 +9,7 @@ import 'package:ecommerce/features/product/presentation/home/subviews/header_vie
 import 'package:ecommerce/features/product/presentation/home/subviews/image_slider_view.dart';
 import 'package:ecommerce/features/product/presentation/home/subviews/product_categories_view.dart';
 import 'package:ecommerce/features/product/presentation/home/subviews/product_grid_view.dart';
+import 'package:ecommerce/features/product/presentation/product_detail/product_detail.dart';
 import 'package:ecommerce/utils/AppColors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -126,7 +127,9 @@ class _HomeViewState extends State<HomeView> {
                             )
                           ],
                         ),
-                        ProductsGridView(products: provider.products,)
+                        ProductsGridView(products: provider.products,onProductTapped: (id) {
+                          Get.to(() => ProductDetail(id: id));
+                        },)
                       ],
                     ),
                   ),
